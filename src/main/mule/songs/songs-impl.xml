@@ -4,6 +4,5 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<sub-flow name="impl-get-albums" doc:id="82eb29d5-3c21-400b-9734-f6069099ed14" />
-	<sub-flow name="impl-add-albums" doc:id="2711ce8f-25bf-40ec-a02f-a36a43cca5fb" />
-	</mule>
+	<sub-flow name="impl-get-songs" doc:id="b4d6da98-3d8a-432d-a5e6-41c2d434b447" />
+</mule>
