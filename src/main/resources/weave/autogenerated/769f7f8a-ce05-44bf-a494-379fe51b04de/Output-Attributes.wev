@@ -1,0 +1,27 @@
+%dw 2.0
+
+type auto_769f7f8a_ce05_44bf_a494_379fe51b04de_Output_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    client_id: String, 
+    client_secret: String, 
+    correlation_id: String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {| artistId: String |}, 
+  version: String, 
+  localAddress: String
+|}
+

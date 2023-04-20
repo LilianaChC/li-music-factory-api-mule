@@ -30,7 +30,9 @@ output application/json
         </ee:transform>
     </flow>
 	<flow name="get:\albums:fmda-music-factory-api-config">
-        <ee:transform>
+        <set-variable value="albums-main::impl-get-albums" doc:name="currentFlow" doc:id="41a76f1f-1d60-4a1d-ac0f-36a83adbc19d" variableName="currentFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="222dfea6-a315-4867-be86-a6155f513128" name="impl-get-albums"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -98,7 +100,9 @@ output application/json
         </ee:transform>
     </flow>
 	<flow name="post:\albums:application\json:fmda-music-factory-api-config">
-        <ee:transform>
+        <set-variable value="albums-main::impl-add-albums" doc:name="currentFlow" doc:id="e4097286-882f-410e-9259-ddd3204aca8d" variableName="currentFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="20fef034-cc57-4102-aa37-dbe23d357126" name="impl-add-albums"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json

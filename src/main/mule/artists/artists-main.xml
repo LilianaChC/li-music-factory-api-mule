@@ -110,7 +110,9 @@ output application/json
                 <ee:set-variable variableName="artistId">attributes.uriParams.'artistId'</ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <ee:transform>
+        <set-variable value="albums-main::impl-update-artist-urls" doc:name="currentFlow" doc:id="d67bd79d-0a16-49d4-a5bc-9b6f430012f5" variableName="currentFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="c8baed81-6fb8-4d6f-8e5e-d7de6214583d" name="impl-update-artist-urls"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -125,7 +127,9 @@ output application/json
         </ee:transform>
     </flow>
 	<flow name="get:\artists:fmda-music-factory-api-config">
-        <ee:transform>
+        <set-variable value="albums-main::impl-get-artists" doc:name="currentFlow" doc:id="852345ef-d0bc-4084-82d3-d179edd83401" variableName="currentFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="cc0352c7-042d-4baa-9ec5-7df125967804" name="impl-get-artists"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -164,7 +168,9 @@ output application/json
         </ee:transform>
     </flow>
 	<flow name="post:\artists:application\json:fmda-music-factory-api-config">
-        <ee:transform>
+        <set-variable value="albums-main::impl-add-artists" doc:name="currentFlow" doc:id="9fef8f80-4eb7-4e86-9236-9809ce79bf98" variableName="currentFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="65a8b5d4-516d-458e-9c06-8648696b9c45" name="impl-add-artists"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json

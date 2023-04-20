@@ -1,0 +1,27 @@
+%dw 2.0
+
+type auto_dbbd0201_43d3_425f_92dc_3d4b68153fb6_Output_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    client_id: String, 
+    client_secret: String, 
+    correlation_id: String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {| groupName: String |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+

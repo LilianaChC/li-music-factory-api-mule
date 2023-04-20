@@ -75,7 +75,9 @@ output application/json
         </ee:transform>
     </flow>
 	<flow name="get:\songs:fmda-music-factory-api-config">
-        <ee:transform>
+        <set-variable value="songs-main::impl-get-songs" doc:name="currentFlow" doc:id="94214a46-323e-4b25-8d20-39c29bc1fe39" variableName="currentFlow"/>
+		<flow-ref doc:name="Flow Reference" doc:id="bef0bb0f-4154-4a13-a782-24fdd3d1c179" name="impl-get-songs"/>
+		<ee:transform>
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
