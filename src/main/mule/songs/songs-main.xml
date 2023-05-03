@@ -77,48 +77,6 @@ output application/json
 	<flow name="get:\songs:fmda-music-factory-api-config">
         <set-variable value="songs-main::impl-get-songs" doc:name="currentFlow" doc:id="94214a46-323e-4b25-8d20-39c29bc1fe39" variableName="currentFlow"/>
 		<flow-ref doc:name="Flow Reference" doc:id="bef0bb0f-4154-4a13-a782-24fdd3d1c179" name="impl-get-songs"/>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  statusCode: 200,
-  message: "SUCCESSFUL",
-  searchCriteria: "Kill",
-  songs: [
-    {
-      songId: 13,
-      songTitle: "I May Kill Myself",
-      genre: "Other",
-      publicationDate: "1942-01-02",
-      duration: "13:52",
-      albumId: 8,
-      albumName: "Harry Belts a Tune",
-      songWriters: [
-        {
-          writer: "Harry Carry"
-        }
-      ]
-    }, 
-    {
-      songId: 13,
-      songTitle: "Don't Kill Yourself",
-      genre: "Rock",
-      publicationDate: "1951-01-02",
-      duration: "13:52",
-      albumId: 8,
-      albumName: "Saving A Life Today",
-      songWriters: [
-        {
-          writer: "Will Meaning"
-        }
-      ]
-    }
-  ]
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
     </flow>
 	<flow name="post:\songs:application\json:fmda-music-factory-api-config">
         <ee:transform>
