@@ -1,0 +1,33 @@
+%dw 2.0
+
+type auto_0a8783b0_84b7_4614_a16f_b6ad19303c7f_Output_Attributes = {|
+  clientCertificate?: {|
+    publicKey?: {|  |}, 
+    "type"?: String, 
+    encoded?: Binary
+  |}, 
+  headers: {|
+    client_id: String, 
+    client_secret: String, 
+    correlation_id: String
+  |}, 
+  listenerPath: String, 
+  method: String, 
+  queryParams: {|
+    lastName?: String, 
+    firstName?: String, 
+    dateOfBirth?: String, 
+    artistName?: String, 
+    groupName?: String
+  |}, 
+  queryString: String, 
+  relativePath: String, 
+  remoteAddress: String, 
+  requestPath: String, 
+  requestUri: String, 
+  scheme: String, 
+  uriParams: {|  |}, 
+  version: String, 
+  localAddress: String
+|}
+

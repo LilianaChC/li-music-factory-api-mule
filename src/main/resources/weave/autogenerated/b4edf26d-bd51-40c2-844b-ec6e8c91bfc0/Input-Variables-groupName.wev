@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_b4edf26d_bd51_40c2_844b_ec6e8c91bfc0_Input_Variables_groupName = String | Null
+
