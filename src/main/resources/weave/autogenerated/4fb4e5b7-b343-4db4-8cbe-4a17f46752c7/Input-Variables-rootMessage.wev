@@ -1,0 +1,33 @@
+%dw 2.0
+
+type auto_4fb4e5b7_b343_4db4_8cbe_4a17f46752c7_Input_Variables_rootMessage = {|
+  payload: {
+    artists: Array<{      firstName?: String,       lastName?: String,       bioUrl?: String,       groupName: String,       dateOfDeath?: String,       imageUrl?: String,       artistId?: Number,       dateOfBirth?: String,       mi?: String,       _?: Any    }>, 
+    _?: Any
+  }, 
+  attributes: {|
+    clientCertificate?: {|
+      publicKey?: {|  |}, 
+      "type"?: String, 
+      encoded?: Binary
+    |}, 
+    headers: {|
+      client_id: String, 
+      client_secret: String, 
+      correlation_id: String
+    |}, 
+    listenerPath: String, 
+    method: String, 
+    queryParams: {|  |}, 
+    queryString: String, 
+    relativePath: String, 
+    remoteAddress: String, 
+    requestPath: String, 
+    requestUri: String, 
+    scheme: String, 
+    uriParams: {|  |}, 
+    version: String, 
+    localAddress: String
+  |}
+|} {"typeId": "org.mule.runtime.api.message.Message"}
+
