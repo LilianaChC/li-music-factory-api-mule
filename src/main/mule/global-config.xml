@@ -46,6 +46,9 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	<db:config name="mysql-config" doc:name="Database Config" doc:id="325e105c-bb27-4929-a35e-454a6c4e4b49" >
 		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.username}" password="root12345" database="${db.databaseMusic}"/>
 	</db:config>
+	<http:request-config name="last-fm-http-config" doc:name="HTTP Request configuration" doc:id="19c38048-9649-40ce-8462-cfd880fd7c69" >
+		<http:request-connection host="${last.fm.host}" port="${last.fm.port}" />
+	</http:request-config>
 	<error-handler name="globalErrorHandler">
             <on-error-propagate type="APIKIT:BAD_REQUEST" enableNotifications="true" logException="false">
 				<set-variable value="400" doc:name="Set HTTP Status code" doc:id="1d6586fd-fb35-42e5-8bdc-3c21840bba73" variableName="statusCode"/>

@@ -105,25 +105,12 @@ output application/json
         </ee:transform>
     </flow>
 	<flow name="patch:\artists\(artistId):application\json:fmda-music-factory-api-config">
-        <ee:transform>
+        <set-variable value="artists-main::impl-update-artist-urls" doc:name="currentFlow" doc:id="d67bd79d-0a16-49d4-a5bc-9b6f430012f5" variableName="currentFlow" />
+		<flow-ref doc:name="impl-update-artist-urls" doc:id="c8baed81-6fb8-4d6f-8e5e-d7de6214583d" name="impl-update-artist-urls"/>
+		<ee:transform>
             <ee:variables>
                 <ee:set-variable variableName="artistId">attributes.uriParams.'artistId'</ee:set-variable>
             </ee:variables>
-        </ee:transform>
-        <set-variable value="artists-main::impl-update-artist-urls" doc:name="currentFlow" doc:id="d67bd79d-0a16-49d4-a5bc-9b6f430012f5" variableName="currentFlow"/>
-		<flow-ref doc:name="Flow Reference" doc:id="c8baed81-6fb8-4d6f-8e5e-d7de6214583d" name="impl-update-artist-urls"/>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  statusCode: 201,
-  message: "SUCCESS",
-  bioUrl: "https://last.fm/music/The Beatles/+wiki",
-  recordsUpdated: 3
-}]]></ee:set-payload>
-            </ee:message>
         </ee:transform>
     </flow>
 	<flow name="get:\artists:fmda-music-factory-api-config">
