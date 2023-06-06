@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<sub-flow name="impl-get-artists" doc:id="ceda9b0e-88f7-4fe7-89e8-4ba5cd687dd7">
 		<logger level="INFO" doc:name="INFO START" doc:id="aaae39e7-ccf3-467c-a076-ca0490935ace" message="impl-get-artists::START" />
 		<flow-ref doc:name="sr-build-query-param-list" doc:id="430c60d8-0da2-4aff-901e-b8d126f92a35" name="sr-build-query-param-list" target="queryParamList"/>
@@ -138,12 +139,13 @@ output application/json
 	<sub-flow name="sr-insert-artist" doc:id="4fb4e5b7-b343-4db4-8cbe-4a17f46752c7" >
 		<logger level="INFO" doc:name="INFO START payload" doc:id="4c47e2ea-3def-4e46-ad08-5a253af22bdd" message="#['sr-insert-artist::START::artist: ' ++ write(payload,'application/json')]"/>
 		<set-variable value="#[payload.artist]" doc:name="incomingArtist" doc:id="c0adcf5f-8a4a-47c7-88d6-4931f78020a3" variableName="incomingArtist"/>
-		<db:insert doc:name="Insert Artist" doc:id="03149d3d-7287-49fc-b187-708f6d55dfb6" config-ref="mysql-config">
-			<db:sql ><![CDATA[INSERT INTO BC_MUSIC_FACTORY.BC_ARTIST 
+		<try doc:name="Try" doc:id="a160a387-c5f2-42ed-8163-39aa1e207897" >
+			<db:insert doc:name="Insert Artist" doc:id="03149d3d-7287-49fc-b187-708f6d55dfb6" config-ref="mysql-config">
+			<db:sql><![CDATA[INSERT INTO BC_MUSIC_FACTORY.BC_ARTIST 
          (ARTIST_ID, GROUP_NM, FIRST_NM, LAST_NM, MI, BIRTH_DATE, DEATH_DATE, STATUS_CD) 
          VALUES (NULL, :groupName, :firstName, :lastName, :mi, :birthDate, :deathDate, 'FMDA')
 ]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{
+			<db:input-parameters><![CDATA[#[{
     groupName: 	vars.incomingArtist.groupName,
     firstName: 	vars.incomingArtist.firstName,
     lastName: 	vars.incomingArtist.lastName,
@@ -152,20 +154,29 @@ output application/json
     deathDate: 	vars.incomingArtist.dateOfDeath
 }]]]></db:input-parameters>
 		</db:insert>
-		<db:select doc:name="Select Insert" doc:id="8ed70485-07ae-4997-ae9e-3d1068a4f622" config-ref="mysql-config" target="newArtistId">
-			<db:sql ><![CDATA[SELECT MAX(artist_id) AS artist_id from BC_MUSIC_FACTORY.BC_ARTIST
+			<db:select doc:name="Select Insert" doc:id="8ed70485-07ae-4997-ae9e-3d1068a4f622" config-ref="mysql-config" target="newArtistId">
+			<db:sql><![CDATA[SELECT MAX(artist_id) AS artist_id from BC_MUSIC_FACTORY.BC_ARTIST
     WHERE GROUP_NM = :groupName 
           AND BIRTH_DATE = :birthDate 
           AND FIRST_NM = :firstName
           AND LAST_NM = :lastName]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{
+			<db:input-parameters><![CDATA[#[{
     groupName: 	vars.incomingArtist.groupName,
     firstName: 	vars.incomingArtist.firstName,
     lastName: 	vars.incomingArtist.lastName,
     birthDate: 	vars.incomingArtist.dateOfBirth
 }]]]></db:input-parameters>
 		</db:select>
-		<set-payload value="#[output application/java&#10;var artist = vars.incomingArtist&#10;var newArtistId = vars.newArtistId[0].artist_id default 0&#10;---&#10;{&#10;	artistId: 	newArtistId,&#10;	groupName: 	artist.groupName,&#10;	lastName: 	artist.lastName,&#10;	firstName: 	artist.firstName,&#10;	mi:       	artist.mi,&#10;	dateOfBirth: 	artist.dateOfBirth,&#10;	dateOfDeath:	artist.dateOfDeath&#10;}]" doc:name="Update Payload" doc:id="389931d1-74dc-431f-85b9-a2092de40866" />
+			<set-payload value="#[output application/java&#10;var artist = vars.incomingArtist&#10;var newArtistId = vars.newArtistId[0].artist_id default 0&#10;---&#10;{&#10;	artistId: 	newArtistId,&#10;	groupName: 	artist.groupName,&#10;	lastName: 	artist.lastName,&#10;	firstName: 	artist.firstName,&#10;	mi:       	artist.mi,&#10;	dateOfBirth: 	artist.dateOfBirth,&#10;	dateOfDeath:	artist.dateOfDeath&#10;}]" doc:name="Update Payload" doc:id="389931d1-74dc-431f-85b9-a2092de40866" />
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="15c1f29d-355e-420f-8e67-db92cac349f8" type="DB:QUERY_EXECUTION">
+					<logger level="ERROR" doc:name="ERROR" doc:id="751b867b-ba4e-4998-a7e4-501f5cf32bde" message="#['sr-insert-artist::OnErrorPropagate::payload: ' ++ write(payload,'application/json')]"/>
+				</on-error-propagate>
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f11b7a53-d69a-4f64-bb73-fb0b6cf07cc5" type="EXPRESSION">
+					<logger level="ERROR" doc:name="ERROR" doc:id="2f53bf27-651a-4f94-85a2-ae39bd2caec9" message="#['sr-insert-artist::OnErrorContinue::payload: ' ++ write(payload,'application/json')]"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		<logger level="INFO" doc:name="INF END payload" doc:id="19597acd-4f6e-49f8-8ca1-35f531c2e306" message="#['sr-insert-artist::END:payload: ' ++ write(payload,'application/json')]"/>
 	</sub-flow>
 	<sub-flow name="impl-update-artist-urls" doc:id="769f7f8a-ce05-44bf-a494-379fe51b04de" >
