@@ -72,34 +72,5 @@ output application/json
 	<flow name="post:\albums:application\json:fmda-music-factory-api-config">
         <set-variable value="albums-main::impl-add-albums" doc:name="currentFlow" doc:id="e4097286-882f-410e-9259-ddd3204aca8d" variableName="currentFlow"/>
 		<flow-ref doc:name="Flow Reference" doc:id="20fef034-cc57-4102-aa37-dbe23d357126" name="impl-add-albums"/>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  statusCode: 201,
-  message: "SUCCESS",
-  albums: [
-    {
-      albumId: 1001,
-      albumTitle: "Telegraph Canyon I",
-      genre: "Pop",
-      publicationDate: "2016-01-29",
-      artistId: 5,
-      artistName: "His Majesty"
-    }, 
-    {
-      albumId: 1002,
-      albumTitle: "Telegraph Canyon II",
-      genre: "Pop",
-      publicationDate: "2018-01-29",
-      artistId: 5,
-      artistName: "Prince"
-    }
-  ]
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
     </flow>
 </mule>
