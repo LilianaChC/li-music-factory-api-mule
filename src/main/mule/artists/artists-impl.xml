@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<sub-flow name="impl-get-artists" doc:id="ceda9b0e-88f7-4fe7-89e8-4ba5cd687dd7">
-		<logger level="INFO" doc:name="INFO START" doc:id="aaae39e7-ccf3-467c-a076-ca0490935ace" message="impl-get-artists::START" />
+		<logger level="INFO" doc:name="INFO START" doc:id="aaae39e7-ccf3-467c-a076-ca0490935ace" message="impl-get-artists::START" category="${log.cat}"/>
 		<flow-ref doc:name="sr-build-query-param-list" doc:id="430c60d8-0da2-4aff-901e-b8d126f92a35" name="sr-build-query-param-list" target="queryParamList"/>
 		<set-variable value="#[attributes.queryParams.groupName]" doc:name="groupName" doc:id="b5d7022c-a376-49bd-9a80-f3ae93424fab" variableName="groupName" />
 		<flow-ref doc:name="sr-select-artists" doc:id="481f5a1e-2cbc-47b9-9b36-6364867188e5" name="sr-select-artists" />
@@ -113,7 +113,8 @@ payload.artists]]></ee:set-variable>
 					<logger level="INFO" doc:name="artistsOut" doc:id="e1720e31-c517-4dd1-b9f6-87b9d88428c3" message="#['impl-add-artists::ForEach::Choice::artistsOut: ' ++ write(payload,'application/json')]"/>
 				</when>
 				<otherwise >
-					<set-variable value="#[%dw 2.0&#10;output application/json&#10;---&#10;	vars.artistsFound + vars.getArtistResponse.artists[0]]" doc:name="append artistFound" doc:id="1868a8c5-c46f-4f3a-8347-82380c5e4e29" variableName="artistsFound"/>
+					<set-variable value='#[%dw 2.0&#10;output application/json&#10;var artist = vars.artist&#10;---&#10;{&#10;	artistId: vars.getArtistResponse.artist[0].artistId,&#10;	groupName: artist.groupName as String,&#10;	lastName: artist.lastName as String,&#10;	firstName: artist.firstName as String,&#10;	m: artist.mi default ""&#10;}]' doc:name="Update artist" doc:id="172ab88a-0f22-4689-a197-ddeaf1380227" variableName="Update artist"/>
+					<set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;vars.artistsFound + vars.newArtist]" doc:name="artistsFound" doc:id="9d9bbe0a-5a27-44f3-8d5e-79123d332d08" variableName="artistsFound"/>
 				</otherwise>
 			</choice>
 		</foreach>
